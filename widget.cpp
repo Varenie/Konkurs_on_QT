@@ -2,12 +2,15 @@
 #include "ui_widget.h"
 #include <QString>
 #include <QFile>
+#include <QTextStream>
+#include <QIntValidator>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    ui->plainTextEdit->setReadOnly(true);
 
 }
 
@@ -21,14 +24,15 @@ void Widget::on_pushButton_clicked()
 {
     play_data a;
     a.name = ui->lineEdit->text();
-    a.score = ui->lineEdit_2->text().toInt();
+    a.score = ui->spinBox->value();
     players.push_back(a);
     ui->lineEdit->clear();
-    ui->lineEdit_2->clear();
+    ui->spinBox->clear();
 }
 
 void Widget::on_pushButton_2_clicked()
 {
+    ui->plainTextEdit->clear();
     QVector<play_data>::iterator i;
     int m = 0;
 
@@ -43,4 +47,15 @@ void Widget::on_pushButton_2_clicked()
         QString place = QString::number(m);
         ui->plainTextEdit->insertPlainText(place + ": " + str + " баллы:" + sc + "\n");
     }
+
+    QFile file("C:\\Konkurs\\DATA.txt");
+    QTextStream in(&file);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QString str = ui->plainTextEdit->toPlainText();
+        in << str;
+        file.flush();
+        file.close();
+    }
 }
+
