@@ -20,6 +20,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    Play_data.h \
     widget.h
 
 FORMS += \
@@ -29,3 +30,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
